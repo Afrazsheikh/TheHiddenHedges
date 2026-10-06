@@ -1,10 +1,14 @@
 import React from 'react';
 import { MessageCircle, Phone, Flame, Sparkles, Instagram } from 'lucide-react';
 
-const WhatsAppFloat = ({ whatsappNumber = '9816821195', instagramUrl = 'https://www.instagram.com/thehiddenhedges?stkn=MWMzbnByM3QydW5wcQ==' }) => {
+const WhatsAppFloat = ({ whatsappNumber = '9816821195', instagramUrl = 'https://www.instagram.com/thehiddenhedges?stkn=MWMzbnByM3QydW5wcQ==', onOpenBookingModal }) => {
   const handleWhatsApp = () => {
-    const url = `https://wa.me/91${whatsappNumber}?text=${encodeURIComponent('Hi! I am visiting The Hidden Hedges website and would like to inquire about booking availability and Diwali offers.')}`;
-    window.open(url, '_blank');
+    if (onOpenBookingModal) {
+      onOpenBookingModal('DIRECT', 'The Hidden Hedges Villa Stay');
+    } else {
+      const url = `https://wa.me/91${whatsappNumber}?text=${encodeURIComponent('Hi! I am visiting The Hidden Hedges website and would like to inquire about booking availability and Diwali offers.')}`;
+      window.open(url, '_blank');
+    }
   };
 
   const handleCall = () => {
@@ -32,7 +36,7 @@ const WhatsAppFloat = ({ whatsappNumber = '9816821195', instagramUrl = 'https://
       >
         {/* Diwali Special Offer Floating Pill */}
         <div
-          onClick={handleWhatsApp}
+          onClick={() => onOpenBookingModal ? onOpenBookingModal('DIWALI2026', 'Grand Diwali Festive Package') : handleWhatsApp()}
           className="glass-panel animate-float"
           style={{
             background: 'linear-gradient(135deg, rgba(230,81,0,0.95) 0%, rgba(15,22,17,0.95) 100%)',
@@ -50,7 +54,7 @@ const WhatsAppFloat = ({ whatsappNumber = '9816821195', instagramUrl = 'https://
           <Flame size={18} color="#fff" />
           <div>
             <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#fff', letterSpacing: '0.5px' }}>DIWALI OFFER: 30% OFF</div>
-            <div style={{ fontSize: '0.68rem', color: '#ffdfb3' }}>Tap to claim code DIWALI2026</div>
+            <div style={{ fontSize: '0.68rem', color: '#ffdfb3' }}>Tap to select dates & claim DIWALI2026</div>
           </div>
         </div>
 
@@ -61,8 +65,8 @@ const WhatsAppFloat = ({ whatsappNumber = '9816821195', instagramUrl = 'https://
           <button
             onClick={handleInstagram}
             style={{
-              width: '52px',
-              height: '52px',
+              width: '50px',
+              height: '50px',
               borderRadius: '50%',
               background: 'linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%)',
               color: '#ffffff',
@@ -78,15 +82,15 @@ const WhatsAppFloat = ({ whatsappNumber = '9816821195', instagramUrl = 'https://
             onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
             onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
-            <Instagram size={22} />
+            <Instagram size={21} />
           </button>
 
           {/* Phone Call Button */}
           <button
             onClick={handleCall}
             style={{
-              width: '52px',
-              height: '52px',
+              width: '50px',
+              height: '50px',
               borderRadius: '50%',
               background: 'var(--gold-gradient)',
               color: '#0f1611',
@@ -102,32 +106,32 @@ const WhatsAppFloat = ({ whatsappNumber = '9816821195', instagramUrl = 'https://
             onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
             onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
-            <Phone size={22} />
+            <Phone size={21} />
           </button>
 
           {/* WhatsApp Main Button */}
           <button
             onClick={handleWhatsApp}
             style={{
-              height: '52px',
-              padding: '0 22px',
+              height: '50px',
+              padding: '0 20px',
               borderRadius: '30px',
               background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
               color: '#ffffff',
               fontWeight: 800,
-              fontSize: '0.92rem',
+              fontSize: '0.88rem',
               border: 'none',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
+              gap: '8px',
               boxShadow: '0 6px 25px rgba(37,211,102,0.5)',
               transition: 'transform 0.3s ease'
             }}
             onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
             onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
-            <MessageCircle size={24} />
+            <MessageCircle size={22} />
             <span>Book Now ({whatsappNumber})</span>
           </button>
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, MessageCircle, ShieldCheck, Menu, X, Sparkles, Instagram, ChevronRight } from 'lucide-react';
 
-const Navbar = ({ onOpenAdmin, whatsappNumber = '9816821195', instagramUrl = 'https://www.instagram.com/thehiddenhedges?stkn=MWMzbnByM3QydW5wcQ==' }) => {
+const Navbar = ({ onOpenAdmin, onOpenBookingModal, whatsappNumber = '9816821195', instagramUrl = 'https://www.instagram.com/thehiddenhedges?stkn=MWMzbnByM3QydW5wcQ==' }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -14,8 +14,12 @@ const Navbar = ({ onOpenAdmin, whatsappNumber = '9816821195', instagramUrl = 'ht
   }, []);
 
   const handleWhatsApp = () => {
-    const url = `https://wa.me/91${whatsappNumber}?text=${encodeURIComponent('Hi! I would like to inquire about booking a stay at The Hidden Hedges Villa.')}`;
-    window.open(url, '_blank');
+    if (onOpenBookingModal) {
+      onOpenBookingModal('DIRECT', 'The Hidden Hedges Villa Stay');
+    } else {
+      const url = `https://wa.me/91${whatsappNumber}?text=${encodeURIComponent('Hi! I would like to inquire about booking a stay at The Hidden Hedges Villa.')}`;
+      window.open(url, '_blank');
+    }
   };
 
   const handleInstagram = () => {
@@ -317,7 +321,7 @@ const Navbar = ({ onOpenAdmin, whatsappNumber = '9816821195', instagramUrl = 'ht
             style={{ width: '100%', justifyContent: 'center', padding: '12px', marginTop: '4px', fontSize: '0.92rem' }}
           >
             <MessageCircle size={18} />
-            <span>Direct WhatsApp Booking ({whatsappNumber})</span>
+            <span>Select Dates & Book ({whatsappNumber})</span>
           </button>
         </div>
       )}

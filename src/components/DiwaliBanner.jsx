@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Flame, Sparkles, MessageCircle, Copy, Check, Gift, Tag, Clock } from 'lucide-react';
 
-const DiwaliBanner = ({ whatsappNumber }) => {
+const DiwaliBanner = ({ whatsappNumber = '9816821195', onOpenBookingModal }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopyCode = () => {
@@ -10,57 +10,58 @@ const DiwaliBanner = ({ whatsappNumber }) => {
     setTimeout(() => setCopied(false), 2500);
   };
 
-  const handleBookDiwali = () => {
-    const msg = `Hi! I want to book the *Grand Diwali Festive Package* at The Hidden Hedges with Promo Code: *DIWALI2026* (30% OFF). Please share available dates!`;
-    window.open(`https://wa.me/91${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+  const handleClaimOffer = () => {
+    if (onOpenBookingModal) {
+      onOpenBookingModal('DIWALI2026', 'Grand Diwali Festive Package (30% OFF)');
+    } else {
+      const msg = `Hi! I want to book the *Grand Diwali Festive Package* at The Hidden Hedges with Promo Code: *DIWALI2026* (30% OFF). Please share available dates!`;
+      window.open(`https://wa.me/91${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
   };
 
   return (
-    <section id="diwali-special" style={{ padding: '80px 0', background: 'linear-gradient(180deg, #18231c 0%, #1a150d 100%)', borderTop: '1px solid rgba(230,81,0,0.3)', borderBottom: '1px solid rgba(230,81,0,0.3)', position: 'relative', overflow: 'hidden' }}>
-      
-      {/* Decorative Glow Elements */}
-      <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '350px', height: '350px', background: 'radial-gradient(circle, rgba(230,81,0,0.2) 0%, transparent 70%)', pointerEvents: 'none' }} />
+    <section id="diwali-special" style={{ padding: '70px 0', background: 'linear-gradient(180deg, #18231c 0%, #1a150d 100%)', borderTop: '1px solid rgba(230,81,0,0.3)', borderBottom: '1px solid rgba(230,81,0,0.3)', position: 'relative', overflow: 'hidden' }}>
       
       <div className="container">
-        <div className="glass-panel" style={{ background: 'linear-gradient(135deg, rgba(35, 20, 10, 0.9) 0%, rgba(20, 30, 22, 0.9) 100%)', border: '1px solid rgba(230,81,0,0.4)', padding: '40px', borderRadius: '24px' }}>
+        <div className="glass-panel" style={{ background: 'linear-gradient(135deg, rgba(35, 20, 10, 0.95) 0%, rgba(20, 30, 22, 0.95) 100%)', border: '1px solid rgba(230,81,0,0.4)', padding: '32px 36px', borderRadius: '24px' }}>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', alignItems: 'center' }} className="grid-2">
+          <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '32px', alignItems: 'center' }} className="grid-2">
             
             {/* Left Content */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }} className="badge-diwali animate-pulse-glow">
-                <Flame size={16} color="#ff9d42" /> GRAND DIWALI FESTIVE OFFER 2026
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }} className="badge-diwali animate-pulse-glow">
+                <Flame size={15} color="#ff9d42" /> GRAND DIWALI FESTIVE OFFER
               </div>
 
-              <h2 className="font-serif" style={{ fontSize: '2.5rem', fontWeight: 800, color: '#ffffff', marginBottom: '16px', lineHeight: 1.2 }}>
+              <h2 className="font-serif" style={{ fontSize: '2.1rem', fontWeight: 800, color: '#ffffff', marginBottom: '14px', lineHeight: 1.25 }}>
                 Celebrate Diwali at <span style={{ color: '#ff9d42' }}>The Hidden Hedges</span>
               </h2>
 
-              <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', marginBottom: '24px' }}>
-                Transform your festival of lights into an unforgettable luxury escape. Enjoy private fireworks, handmade rangoli, gourmet dining, organic champagne, and heated infinity pool views.
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.94rem', marginBottom: '20px', lineHeight: 1.6 }}>
+                Transform your festival into an unforgettable luxury mountain escape. Private fireworks, traditional rangoli, festive feast by private chef, and heated infinity pool access.
               </p>
 
               {/* Offer Perks */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '32px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#f8f6f0', fontSize: '0.9rem' }}>
-                  <Gift size={18} color="#ff9d42" /> Private Festive Feast by Chef
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#f8f6f0', fontSize: '0.85rem' }}>
+                  <Gift size={16} color="#ff9d42" /> Gourmet Chef Feast
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#f8f6f0', fontSize: '0.9rem' }}>
-                  <Sparkles size={18} color="#ff9d42" /> Complimentary Champagne
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#f8f6f0', fontSize: '0.85rem' }}>
+                  <Sparkles size={16} color="#ff9d42" /> Organic Champagne
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#f8f6f0', fontSize: '0.9rem' }}>
-                  <Flame size={18} color="#ff9d42" /> Illumination & Diyas Decor
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#f8f6f0', fontSize: '0.85rem' }}>
+                  <Flame size={16} color="#ff9d42" /> Diyas Illumination
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#f8f6f0', fontSize: '0.9rem' }}>
-                  <Clock size={18} color="#ff9d42" /> 30% Flat Rate Discount
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#f8f6f0', fontSize: '0.85rem' }}>
+                  <Clock size={16} color="#ff9d42" /> 30% Flat Discount
                 </div>
               </div>
 
               {/* Promo Code Box */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px', background: 'rgba(0,0,0,0.4)', padding: '14px 20px', borderRadius: '16px', border: '1px dashed rgba(230,81,0,0.5)', marginBottom: '28px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '14px', background: 'rgba(0,0,0,0.4)', padding: '12px 18px', borderRadius: '14px', border: '1px dashed rgba(230,81,0,0.5)', marginBottom: '22px' }}>
                 <div>
-                  <span style={{ display: 'block', fontSize: '0.75rem', color: '#ff9d42', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700 }}>Promo Code</span>
-                  <span style={{ fontSize: '1.4rem', fontWeight: 900, letterSpacing: '2px', color: '#ffffff' }}>DIWALI2026</span>
+                  <span style={{ display: 'block', fontSize: '0.7rem', color: '#ff9d42', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700 }}>PROMO CODE</span>
+                  <span style={{ fontSize: '1.25rem', fontWeight: 900, letterSpacing: '2px', color: '#ffffff' }}>DIWALI2026</span>
                 </div>
                 <button
                   onClick={handleCopyCode}
@@ -69,44 +70,43 @@ const DiwaliBanner = ({ whatsappNumber }) => {
                     background: copied ? '#10b981' : 'rgba(230,81,0,0.2)',
                     border: '1px solid rgba(230,81,0,0.5)',
                     color: '#ffffff',
-                    padding: '8px 16px',
+                    padding: '6px 14px',
                     borderRadius: '30px',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
-                    fontSize: '0.85rem',
-                    fontWeight: 600,
-                    transition: 'all 0.3s ease'
+                    fontSize: '0.8rem',
+                    fontWeight: 600
                   }}
                 >
-                  {copied ? <Check size={16} /> : <Copy size={16} />}
-                  <span>{copied ? 'Code Copied!' : 'Copy Code'}</span>
+                  {copied ? <Check size={14} /> : <Copy size={14} />}
+                  <span>{copied ? 'Copied!' : 'Copy Code'}</span>
                 </button>
               </div>
 
-              <button onClick={handleBookDiwali} className="btn-diwali" style={{ width: '100%', justifyContent: 'center' }}>
-                <MessageCircle size={20} />
-                <span>Claim Diwali Offer via WhatsApp ({whatsappNumber})</span>
+              <button onClick={handleClaimOffer} className="btn-diwali" style={{ width: '100%', justifyContent: 'center', padding: '14px' }}>
+                <MessageCircle size={18} />
+                <span>Select Dates & Claim Offer</span>
               </button>
 
             </div>
 
             {/* Right Visual Image */}
             <div style={{ position: 'relative' }}>
-              <div style={{ borderRadius: '20px', overflow: 'hidden', border: '2px solid rgba(230,81,0,0.4)', boxShadow: '0 20px 40px rgba(0,0,0,0.6)' }}>
+              <div style={{ borderRadius: '18px', overflow: 'hidden', border: '2px solid rgba(230,81,0,0.4)', boxShadow: '0 16px 36px rgba(0,0,0,0.6)' }}>
                 <img
                   src="/images/diwali.jpg"
                   alt="Diwali Festive Offer The Hidden Hedges"
-                  style={{ width: '100%', height: '380px', objectFit: 'cover', display: 'block', transform: 'scale(1.02)' }}
+                  style={{ width: '100%', height: '340px', objectFit: 'cover', display: 'block' }}
                 />
               </div>
 
-              <div style={{ position: 'absolute', bottom: '20px', left: '20px', background: 'rgba(15,22,17,0.9)', backdropFilter: 'blur(10px)', border: '1px solid var(--border-gold)', padding: '12px 20px', borderRadius: '14px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Tag size={24} color="#ff9d42" />
+              <div style={{ position: 'absolute', bottom: '16px', left: '16px', background: 'rgba(15,22,17,0.92)', backdropFilter: 'blur(10px)', border: '1px solid var(--border-gold)', padding: '10px 16px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Tag size={20} color="#ff9d42" />
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Special Festive Discount</div>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#ffffff' }}>SAVE 30% ON STAY</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Special Festive Deal</div>
+                  <div style={{ fontSize: '1rem', fontWeight: 800, color: '#ffffff' }}>SAVE 30% ON STAY</div>
                 </div>
               </div>
             </div>

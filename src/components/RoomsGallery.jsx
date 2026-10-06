@@ -56,7 +56,7 @@ const suitesData = [
   }
 ];
 
-const RoomsGallery = ({ whatsappNumber }) => {
+const RoomsGallery = ({ whatsappNumber = '9816821195', onOpenBookingModal }) => {
   const [activeFilter, setActiveFilter] = useState('All');
 
   const categories = ['All', 'Penthouse', 'Luxury Suite', 'Chalet', 'Living & Dining'];
@@ -66,29 +66,33 @@ const RoomsGallery = ({ whatsappNumber }) => {
     : suitesData.filter(s => s.category === activeFilter);
 
   const handleBookSuite = (suite) => {
-    const msg = `Hi! I would like to check availability for the *${suite.name}* at The Hidden Hedges Villa. Rate: ${suite.price}. Please share open dates!`;
-    window.open(`https://wa.me/91${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+    if (onOpenBookingModal) {
+      onOpenBookingModal('SUITE_RESERVATION', suite.name);
+    } else {
+      const msg = `Hi! I would like to check availability for the *${suite.name}* at The Hidden Hedges Villa. Rate: ${suite.price}. Please share open dates!`;
+      window.open(`https://wa.me/91${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
   };
 
   return (
-    <section id="suites" style={{ padding: '100px 0', background: 'var(--bg-dark)' }}>
+    <section id="suites" style={{ padding: '80px 0', background: 'var(--bg-dark)' }}>
       <div className="container">
         
         {/* Section Title */}
-        <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 50px' }}>
-          <span className="badge-gold" style={{ marginBottom: '12px', display: 'inline-block' }}>
+        <div style={{ textAlign: 'center', maxWidth: '650px', margin: '0 auto 40px' }}>
+          <span className="badge-gold" style={{ marginBottom: '10px', display: 'inline-block' }}>
             ACCOMMODATION & SPACES
           </span>
-          <h2 className="font-serif" style={{ fontSize: '2.8rem', fontWeight: 800, color: '#ffffff', marginBottom: '16px' }}>
+          <h2 className="font-serif" style={{ fontSize: '2.2rem', fontWeight: 800, color: '#ffffff', marginBottom: '12px' }}>
             Luxury Suites & <span className="text-gold-gradient">Estate Spaces</span>
           </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.94rem' }}>
             Each suite at The Hidden Hedges is crafted with floor-to-ceiling glass windows, organic linens, warm timber accents, and private outdoor decks.
           </p>
         </div>
 
         {/* Filter Buttons */}
-        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '40px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
           {categories.map((cat) => (
             <button
               key={cat}
@@ -98,10 +102,10 @@ const RoomsGallery = ({ whatsappNumber }) => {
                 color: activeFilter === cat ? '#0f1611' : 'var(--text-muted)',
                 fontWeight: activeFilter === cat ? 700 : 500,
                 border: activeFilter === cat ? 'none' : '1px solid var(--border-gold)',
-                padding: '8px 20px',
+                padding: '7px 18px',
                 borderRadius: '30px',
                 cursor: 'pointer',
-                fontSize: '0.85rem',
+                fontSize: '0.82rem',
                 transition: 'all 0.3s ease'
               }}
             >
@@ -113,29 +117,27 @@ const RoomsGallery = ({ whatsappNumber }) => {
         {/* Suites Grid */}
         <div className="grid-2">
           {filteredSuites.map((suite) => (
-            <div key={suite.id} className="glass-panel" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            <div key={suite.id} className="glass-panel" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', borderRadius: '20px' }}>
               
               {/* Image Header */}
-              <div style={{ height: '280px', position: 'relative', overflow: 'hidden' }}>
+              <div style={{ height: '300px', position: 'relative', overflow: 'hidden' }}>
                 <img
                   src={suite.image}
                   alt={suite.name}
                   style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-                  onMouseOver={(e) => e.target.style.transform = 'scale(1.06)'}
-                  onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
                 />
                 
                 <div style={{
                   position: 'absolute',
-                  bottom: '16px',
-                  left: '16px',
-                  background: 'rgba(15,22,17,0.85)',
+                  bottom: '14px',
+                  left: '14px',
+                  background: 'rgba(15,22,17,0.88)',
                   backdropFilter: 'blur(10px)',
-                  padding: '6px 14px',
+                  padding: '5px 12px',
                   borderRadius: '20px',
                   color: 'var(--gold-light)',
                   fontWeight: 700,
-                  fontSize: '0.9rem',
+                  fontSize: '0.85rem',
                   border: '1px solid var(--border-gold)'
                 }}>
                   {suite.price}
@@ -143,27 +145,27 @@ const RoomsGallery = ({ whatsappNumber }) => {
               </div>
 
               {/* Suite Content */}
-              <div style={{ padding: '28px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                 
-                <div style={{ display: 'flex', gap: '16px', color: 'var(--text-dim)', fontSize: '0.82rem', marginBottom: '12px', flexWrap: 'wrap' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Maximize size={14} /> {suite.size}</span>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Users size={14} /> {suite.capacity}</span>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Eye size={14} /> {suite.view}</span>
+                <div style={{ display: 'flex', gap: '14px', color: 'var(--text-dim)', fontSize: '0.78rem', marginBottom: '10px', flexWrap: 'wrap' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Maximize size={13} /> {suite.size}</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Users size={13} /> {suite.capacity}</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Eye size={13} /> {suite.view}</span>
                 </div>
 
-                <h3 className="font-serif" style={{ fontSize: '1.5rem', color: '#ffffff', fontWeight: 700, marginBottom: '10px' }}>
+                <h3 className="font-serif" style={{ fontSize: '1.3rem', color: '#ffffff', fontWeight: 700, marginBottom: '8px' }}>
                   {suite.name}
                 </h3>
 
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', marginBottom: '20px', lineHeight: 1.6 }}>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', marginBottom: '16px', lineHeight: 1.5 }}>
                   {suite.description}
                 </p>
 
                 {/* Amenities checklist */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '24px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', marginBottom: '20px' }}>
                   {suite.amenities.map((item, idx) => (
-                    <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', color: 'var(--text-main)' }}>
-                      <Check size={14} color="var(--gold-primary)" />
+                    <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', color: 'var(--text-main)' }}>
+                      <Check size={13} color="var(--gold-primary)" />
                       <span>{item}</span>
                     </div>
                   ))}
@@ -172,10 +174,10 @@ const RoomsGallery = ({ whatsappNumber }) => {
                 <button
                   onClick={() => handleBookSuite(suite)}
                   className="btn-primary"
-                  style={{ marginTop: 'auto', width: '100%', justifyContent: 'center' }}
+                  style={{ marginTop: 'auto', width: '100%', justifyContent: 'center', padding: '12px', fontSize: '0.88rem' }}
                 >
-                  <MessageCircle size={18} />
-                  <span>Reserve Suite via WhatsApp</span>
+                  <MessageCircle size={16} />
+                  <span>Select Dates & Reserve Suite</span>
                 </button>
 
               </div>
