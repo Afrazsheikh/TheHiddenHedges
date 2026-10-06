@@ -13,7 +13,7 @@ import WhatsAppFloat from './components/WhatsAppFloat';
 import Footer from './components/Footer';
 import AdminLoginModal from './components/AdminLoginModal';
 import AdminDashboard from './components/AdminDashboard';
-import BookingModal from './components/BookingModal';
+import LeadCaptureModal from './components/LeadCaptureModal';
 
 function App() {
   const [offers, setOffers] = useState([]);
@@ -26,11 +26,6 @@ function App() {
   const [adminModalOpen, setAdminModalOpen] = useState(false);
   const [adminDashboardOpen, setAdminDashboardOpen] = useState(false);
   const [adminToken, setAdminToken] = useState(localStorage.getItem('adminToken') || '');
-
-  // Booking Date Selection Modal State
-  const [bookingModalOpen, setBookingModalOpen] = useState(false);
-  const [selectedOfferCode, setSelectedOfferCode] = useState('DIRECT');
-  const [selectedOfferTitle, setSelectedOfferTitle] = useState('The Hidden Hedges Villa Stay');
 
   useEffect(() => {
     fetchOffers();
@@ -53,12 +48,6 @@ function App() {
     } catch (err) {}
   };
 
-  const handleOpenBookingModal = (code = 'DIRECT', title = 'The Hidden Hedges Villa Stay') => {
-    setSelectedOfferCode(code);
-    setSelectedOfferTitle(title);
-    setBookingModalOpen(true);
-  };
-
   const handleOpenAdminTrigger = () => {
     if (adminToken) {
       setAdminDashboardOpen(true);
@@ -78,7 +67,6 @@ function App() {
       {/* Sticky Glass Navbar */}
       <Navbar
         onOpenAdmin={handleOpenAdminTrigger}
-        onOpenBookingModal={handleOpenBookingModal}
         whatsappNumber={settings.whatsappNumber || '9816821195'}
         instagramUrl={settings.instagramUrl || 'https://www.instagram.com/thehiddenhedges?stkn=MWMzbnByM3QydW5wcQ=='}
       />
@@ -87,20 +75,17 @@ function App() {
       <HeroSection
         whatsappNumber={settings.whatsappNumber || '9816821195'}
         offers={offers}
-        onOpenBookingModal={handleOpenBookingModal}
       />
 
       {/* Grand Diwali Festive Offer Special Section */}
       <DiwaliBanner
         whatsappNumber={settings.whatsappNumber || '9816821195'}
-        onOpenBookingModal={handleOpenBookingModal}
       />
 
       {/* Dynamic Offers & Packages Carousel (Managed Live by Admin) */}
       <OffersSection
         offers={offers}
         whatsappNumber={settings.whatsappNumber || '9816821195'}
-        onOpenBookingModal={handleOpenBookingModal}
       />
 
       {/* About Villa & 100% Private Estate Story */}
@@ -109,7 +94,6 @@ function App() {
       {/* Luxury Rooms & Suites Interactive Gallery */}
       <RoomsGallery
         whatsappNumber={settings.whatsappNumber || '9816821195'}
-        onOpenBookingModal={handleOpenBookingModal}
       />
 
       {/* World-Class Estate Amenities */}
@@ -141,15 +125,10 @@ function App() {
       <WhatsAppFloat
         whatsappNumber={settings.whatsappNumber || '9816821195'}
         instagramUrl={settings.instagramUrl || 'https://www.instagram.com/thehiddenhedges?stkn=MWMzbnByM3QydW5wcQ=='}
-        onOpenBookingModal={handleOpenBookingModal}
       />
 
-      {/* Interactive Booking Date Selection Modal */}
-      <BookingModal
-        isOpen={bookingModalOpen}
-        onClose={() => setBookingModalOpen(false)}
-        offerCode={selectedOfferCode}
-        offerTitle={selectedOfferTitle}
+      {/* First-Visit Visitor Lead Capture Modal */}
+      <LeadCaptureModal
         whatsappNumber={settings.whatsappNumber || '9816821195'}
       />
 

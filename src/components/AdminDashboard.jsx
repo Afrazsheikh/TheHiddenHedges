@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Edit3, Check, X, ShieldCheck, Tag, Sparkles, Phone, MessageCircle, BarChart3, Globe, Search, RefreshCw, Flame, ExternalLink, Upload, Image as ImageIcon } from 'lucide-react';
+import { Plus, Trash2, Edit3, Check, X, ShieldCheck, Tag, Sparkles, Phone, MessageCircle, BarChart3, Globe, Search, RefreshCw, Flame, ExternalLink, Upload, Image as ImageIcon, UserCheck } from 'lucide-react';
 
 const AdminDashboard = ({ token, onClose, onRefreshOffers, settings = {}, onRefreshSettings }) => {
-  const [activeTab, setActiveTab] = useState('offers');
+  const [activeTab, setActiveTab] = useState('inquiries');
   const [offersList, setOffersList] = useState([]);
   const [inquiriesList, setInquiriesList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -89,7 +89,6 @@ const AdminDashboard = ({ token, onClose, onRefreshOffers, settings = {}, onRefr
       if (res.ok && data.success) {
         setMsg({ type: 'success', text: `Success! ${data.message} The website visual has been updated without file bloat.` });
         setSelectedFile(null);
-        // Force refresh browser cache for images
         setTimeout(() => window.location.reload(), 1500);
       } else {
         setMsg({ type: 'error', text: data.message || 'Upload failed' });
@@ -245,7 +244,7 @@ const AdminDashboard = ({ token, onClose, onRefreshOffers, settings = {}, onRefr
                 The Hidden Hedges - Admin Control Panel
               </h2>
               <span style={{ fontSize: '0.8rem', color: 'var(--gold-light)' }}>
-                MongoDB Connected | User: munaazpro_db_user | Hotline: 9816821195
+                MongoDB Atlas Connected | User: munaazpro_db_user | Hotline: 9816821195
               </span>
             </div>
           </div>
@@ -283,6 +282,25 @@ const AdminDashboard = ({ token, onClose, onRefreshOffers, settings = {}, onRefr
         <div style={{ display: 'flex', gap: '10px', marginBottom: '28px', flexWrap: 'wrap' }}>
           
           <button
+            onClick={() => setActiveTab('inquiries')}
+            style={{
+              background: activeTab === 'inquiries' ? 'var(--gold-gradient)' : 'rgba(255,255,255,0.05)',
+              color: activeTab === 'inquiries' ? '#0f1611' : 'var(--text-main)',
+              fontWeight: 700,
+              padding: '12px 20px',
+              borderRadius: '30px',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontSize: '0.88rem'
+            }}
+          >
+            <Phone size={18} /> Captured Visitor Phone Numbers ({inquiriesList.length})
+          </button>
+
+          <button
             onClick={() => setActiveTab('offers')}
             style={{
               background: activeTab === 'offers' ? 'var(--gold-gradient)' : 'rgba(255,255,255,0.05)',
@@ -298,7 +316,7 @@ const AdminDashboard = ({ token, onClose, onRefreshOffers, settings = {}, onRefr
               fontSize: '0.88rem'
             }}
           >
-            <Flame size={18} /> Offers ({offersList.length})
+            <Flame size={18} /> Manage Offers ({offersList.length})
           </button>
 
           <button
@@ -317,26 +335,7 @@ const AdminDashboard = ({ token, onClose, onRefreshOffers, settings = {}, onRefr
               fontSize: '0.88rem'
             }}
           >
-            <ImageIcon size={18} /> Replace Real Photos (Zero-Bloat)
-          </button>
-
-          <button
-            onClick={() => setActiveTab('inquiries')}
-            style={{
-              background: activeTab === 'inquiries' ? 'var(--gold-gradient)' : 'rgba(255,255,255,0.05)',
-              color: activeTab === 'inquiries' ? '#0f1611' : 'var(--text-main)',
-              fontWeight: 700,
-              padding: '12px 20px',
-              borderRadius: '30px',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              fontSize: '0.88rem'
-            }}
-          >
-            <MessageCircle size={18} /> WhatsApp Inquiries ({inquiriesList.length})
+            <ImageIcon size={18} /> Upload Real Photos (Zero-Bloat)
           </button>
 
           <button
@@ -374,118 +373,97 @@ const AdminDashboard = ({ token, onClose, onRefreshOffers, settings = {}, onRefr
               fontSize: '0.88rem'
             }}
           >
-            <Phone size={18} /> Estate Settings
+            <Phone size={18} /> Estate Hotline Settings
           </button>
         </div>
 
-        {/* TAB: REPLACE REAL VILLA PHOTOS */}
-        {activeTab === 'upload' && (
-          <div className="glass-panel" style={{ padding: '32px', borderRadius: '24px' }}>
-            
-            <div style={{ maxWidth: '750px', margin: '0 auto' }}>
-              <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-                <span className="badge-gold" style={{ marginBottom: '12px', display: 'inline-block' }}>
-                  REAL IMAGE UPLOADER & REPLACER
-                </span>
-                <h3 className="font-serif" style={{ fontSize: '1.8rem', color: '#ffffff', fontWeight: 800, marginBottom: '10px' }}>
-                  Replace Existing Website Images
+        {/* TAB 1: CAPTURED VISITOR PHONE NUMBERS & INQUIRIES */}
+        {activeTab === 'inquiries' && (
+          <div className="glass-panel" style={{ padding: '28px', borderRadius: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+              <div>
+                <h3 className="font-serif" style={{ fontSize: '1.4rem', color: '#ffffff', fontWeight: 800 }}>
+                  Captured Visitor Phone Numbers & Lead Enquiries
                 </h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem' }}>
-                  Upload your actual villa photos from your computer. Selecting a slot (e.g. Hero Main) overwrites the existing image directly so your website updates instantly without accumulating storage bloat!
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem' }}>
+                  Real-time list of phone numbers captured from initial URL visits & WhatsApp booking clicks.
                 </p>
               </div>
 
-              <form onSubmit={handleUploadSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px', background: 'rgba(0,0,0,0.3)', padding: '28px', borderRadius: '20px', border: '1px solid var(--border-gold)' }}>
-                
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: 'var(--gold-light)', marginBottom: '8px', textTransform: 'uppercase' }}>
-                    Select Image Slot to Overwrite
-                  </label>
-                  <select
-                    value={uploadSlot}
-                    onChange={(e) => setUploadSlot(e.target.value)}
-                    style={{ width: '100%', background: 'rgba(15,22,17,0.9)', border: '1px solid var(--border-gold)', color: '#ffffff', padding: '12px', borderRadius: '12px', fontSize: '0.95rem', outline: 'none' }}
-                  >
-                    <option value="hero">📸 Hero Main Background (Replaces /images/hero.jpg)</option>
-                    <option value="diwali">🪔 Festive Diwali Banner (Replaces /images/diwali.jpg)</option>
-                    <option value="bedroom">🛏️ Penthouse Suite Bedroom (Replaces /images/bedroom.jpg)</option>
-                    <option value="dining">🍷 Starlight Dining Terrace (Replaces /images/dining.jpg)</option>
-                    <option value="custom">🖼️ New Custom Villa Photo (Generates clean named file)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: 'var(--gold-light)', marginBottom: '8px', textTransform: 'uppercase' }}>
-                    Choose Photo File from Computer
-                  </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setSelectedFile(e.target.files[0])}
-                    style={{
-                      width: '100%',
-                      background: 'rgba(15,22,17,0.9)',
-                      border: '1px dashed var(--border-gold)',
-                      color: '#ffffff',
-                      padding: '16px',
-                      borderRadius: '12px',
-                      fontSize: '0.9rem',
-                      cursor: 'pointer'
-                    }}
-                  />
-                  {selectedFile && (
-                    <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#10b981', fontWeight: 600 }}>
-                      ✓ Selected File: {selectedFile.name} ({Math.round(selectedFile.size / 1024)} KB)
-                    </div>
-                  )}
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={uploading}
-                  className="btn-primary"
-                  style={{ width: '100%', justifyContent: 'center', padding: '16px', fontSize: '1rem', marginTop: '10px' }}
-                >
-                  <Upload size={20} />
-                  <span>{uploading ? 'Replacing Image...' : 'Upload & Overwrite Target Slot'}</span>
-                </button>
-
-              </form>
-
-              {/* Slot Preview Gallery */}
-              <div style={{ marginTop: '40px' }}>
-                <h4 style={{ color: '#ffffff', fontWeight: 700, fontSize: '1.1rem', marginBottom: '16px' }}>Current Active Website Image Slots</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-                  
-                  <div style={{ textAlign: 'center' }}>
-                    <img src="/images/hero.jpg" alt="Hero Main" style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '12px', border: '1px solid var(--border-gold)' }} />
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginTop: '6px' }}>Hero Main</span>
-                  </div>
-
-                  <div style={{ textAlign: 'center' }}>
-                    <img src="/images/diwali.jpg" alt="Diwali Banner" style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '12px', border: '1px solid var(--border-gold)' }} />
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginTop: '6px' }}>Diwali Banner</span>
-                  </div>
-
-                  <div style={{ textAlign: 'center' }}>
-                    <img src="/images/bedroom.jpg" alt="Master Suite" style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '12px', border: '1px solid var(--border-gold)' }} />
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginTop: '6px' }}>Master Suite</span>
-                  </div>
-
-                  <div style={{ textAlign: 'center' }}>
-                    <img src="/images/dining.jpg" alt="Dining Terrace" style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '12px', border: '1px solid var(--border-gold)' }} />
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginTop: '6px' }}>Dining Terrace</span>
-                  </div>
-
-                </div>
-              </div>
-
+              <button onClick={fetchInquiries} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-gold)', color: 'var(--gold-light)', padding: '8px 16px', borderRadius: '20px', cursor: 'pointer', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <RefreshCw size={14} /> Refresh Leads
+              </button>
             </div>
 
+            {inquiriesList.length === 0 ? (
+              <p style={{ color: 'var(--text-muted)', padding: '20px 0' }}>No captured leads yet. When visitors open the URL and submit their phone number, they will instantly appear here.</p>
+            ) : (
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid var(--border-gold)', color: 'var(--gold-light)' }}>
+                      <th style={{ padding: '12px' }}>Timestamp</th>
+                      <th style={{ padding: '12px' }}>Visitor Name</th>
+                      <th style={{ padding: '12px' }}>Captured Phone Number</th>
+                      <th style={{ padding: '12px' }}>Offer / Interest</th>
+                      <th style={{ padding: '12px' }}>Lead Source</th>
+                      <th style={{ padding: '12px' }}>Direct Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {inquiriesList.map((inq) => (
+                      <tr key={inq._id} style={{ borderBottom: '1px solid var(--border-light)' }}>
+                        <td style={{ padding: '12px', color: 'var(--text-dim)' }}>
+                          {new Date(inq.createdAt).toLocaleString()}
+                        </td>
+                        <td style={{ padding: '12px', color: '#ffffff', fontWeight: 700 }}>
+                          {inq.guestName || 'Website Visitor'}
+                        </td>
+                        <td style={{ padding: '12px' }}>
+                          <span style={{ fontSize: '1rem', fontWeight: 800, color: '#34d399', letterSpacing: '0.5px' }}>
+                            {inq.phone || 'WhatsApp Click'}
+                          </span>
+                        </td>
+                        <td style={{ padding: '12px' }}>
+                          <span className="badge-gold" style={{ fontSize: '0.75rem' }}>
+                            {inq.offerCode || 'DIWALI2026'}
+                          </span>
+                        </td>
+                        <td style={{ padding: '12px', color: 'var(--text-muted)', fontSize: '0.82rem' }}>
+                          {inq.message || 'URL First Visit Lead'}
+                        </td>
+                        <td style={{ padding: '12px' }}>
+                          {inq.phone ? (
+                            <div style={{ display: 'flex', gap: '8px' }}>
+                              <a
+                                href={`tel:${inq.phone}`}
+                                style={{ background: 'var(--gold-gradient)', color: '#0f1611', padding: '6px 12px', borderRadius: '16px', textDecoration: 'none', fontWeight: 700, fontSize: '0.78rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                              >
+                                <Phone size={12} /> Call
+                              </a>
+                              <a
+                                href={`https://wa.me/91${inq.phone.replace(/\D/g, '')}?text=${encodeURIComponent('Hi! Thank you for requesting info about The Hidden Hedges Villa. How can we assist with your stay dates?')}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                style={{ background: '#25D366', color: '#fff', padding: '6px 12px', borderRadius: '16px', textDecoration: 'none', fontWeight: 700, fontSize: '0.78rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                              >
+                                <MessageCircle size={12} /> WhatsApp
+                              </a>
+                            </div>
+                          ) : (
+                            <span style={{ color: 'var(--text-dim)', fontSize: '0.78rem' }}>Direct Click Logged</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
 
-        {/* TAB 1: MANAGE OFFERS */}
+        {/* TAB 2: MANAGE OFFERS */}
         {activeTab === 'offers' && (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '30px' }} className="grid-2">
             
@@ -702,62 +680,86 @@ const AdminDashboard = ({ token, onClose, onRefreshOffers, settings = {}, onRefr
           </div>
         )}
 
-        {/* TAB 2: INQUIRIES LOG */}
-        {activeTab === 'inquiries' && (
-          <div className="glass-panel" style={{ padding: '28px', borderRadius: '20px' }}>
-            <h3 className="font-serif" style={{ fontSize: '1.4rem', color: '#ffffff', marginBottom: '20px' }}>
-              Logged Guest WhatsApp Bookings
-            </h3>
-            {inquiriesList.length === 0 ? (
-              <p style={{ color: 'var(--text-muted)' }}>No inquiries recorded yet. Guests clicking "Book Now" will automatically appear here.</p>
-            ) : (
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
-                  <thead>
-                    <tr style={{ borderBottom: '1px solid var(--border-gold)', color: 'var(--gold-light)' }}>
-                      <th style={{ padding: '12px' }}>Date/Time</th>
-                      <th style={{ padding: '12px' }}>Dates Requested</th>
-                      <th style={{ padding: '12px' }}>Offer Code</th>
-                      <th style={{ padding: '12px' }}>Guests</th>
-                      <th style={{ padding: '12px' }}>Message Context</th>
-                      <th style={{ padding: '12px' }}>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {inquiriesList.map((inq) => (
-                      <tr key={inq._id} style={{ borderBottom: '1px solid var(--border-light)' }}>
-                        <td style={{ padding: '12px', color: 'var(--text-dim)' }}>
-                          {new Date(inq.createdAt).toLocaleDateString()}
-                        </td>
-                        <td style={{ padding: '12px', color: '#ffffff', fontWeight: 600 }}>
-                          {inq.checkIn || 'Open'} → {inq.checkOut || 'Open'}
-                        </td>
-                        <td style={{ padding: '12px' }}>
-                          <span className="badge-gold" style={{ fontSize: '0.75rem' }}>{inq.offerCode}</span>
-                        </td>
-                        <td style={{ padding: '12px', color: 'var(--text-main)' }}>{inq.guestsCount || 2} Guests</td>
-                        <td style={{ padding: '12px', color: 'var(--text-muted)' }}>{inq.message}</td>
-                        <td style={{ padding: '12px' }}>
-                          <span style={{ background: '#10b98122', color: '#10b981', padding: '4px 10px', borderRadius: '12px', fontSize: '0.78rem', fontWeight: 700 }}>
-                            {inq.status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+        {/* TAB 3: UPLOAD REAL VILLA PHOTOS */}
+        {activeTab === 'upload' && (
+          <div className="glass-panel" style={{ padding: '32px', borderRadius: '24px' }}>
+            <div style={{ maxWidth: '750px', margin: '0 auto' }}>
+              <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+                <span className="badge-gold" style={{ marginBottom: '12px', display: 'inline-block' }}>
+                  REAL IMAGE UPLOADER & REPLACER
+                </span>
+                <h3 className="font-serif" style={{ fontSize: '1.8rem', color: '#ffffff', fontWeight: 800, marginBottom: '10px' }}>
+                  Replace Existing Website Images
+                </h3>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem' }}>
+                  Upload your actual villa photos from your computer. Overwrites target slots directly without accumulating storage bloat!
+                </p>
               </div>
-            )}
+
+              <form onSubmit={handleUploadSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px', background: 'rgba(0,0,0,0.3)', padding: '28px', borderRadius: '20px', border: '1px solid var(--border-gold)' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: 'var(--gold-light)', marginBottom: '8px', textTransform: 'uppercase' }}>
+                    Select Image Slot to Overwrite
+                  </label>
+                  <select
+                    value={uploadSlot}
+                    onChange={(e) => setUploadSlot(e.target.value)}
+                    style={{ width: '100%', background: 'rgba(15,22,17,0.9)', border: '1px solid var(--border-gold)', color: '#ffffff', padding: '12px', borderRadius: '12px', fontSize: '0.95rem', outline: 'none' }}
+                  >
+                    <option value="hero">📸 Hero Main Background (Replaces /images/hero.jpg)</option>
+                    <option value="diwali">🪔 Festive Diwali Banner (Replaces /images/diwali.jpg)</option>
+                    <option value="bedroom">🛏️ Penthouse Suite Bedroom (Replaces /images/bedroom.jpg)</option>
+                    <option value="dining">🍷 Starlight Dining Terrace (Replaces /images/dining.jpg)</option>
+                    <option value="custom">🖼️ New Custom Villa Photo (Generates clean named file)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: 'var(--gold-light)', marginBottom: '8px', textTransform: 'uppercase' }}>
+                    Choose Photo File from Computer
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setSelectedFile(e.target.files[0])}
+                    style={{
+                      width: '100%',
+                      background: 'rgba(15,22,17,0.9)',
+                      border: '1px dashed var(--border-gold)',
+                      color: '#ffffff',
+                      padding: '16px',
+                      borderRadius: '12px',
+                      fontSize: '0.9rem',
+                      cursor: 'pointer'
+                    }}
+                  />
+                  {selectedFile && (
+                    <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#10b981', fontWeight: 600 }}>
+                      ✓ Selected File: {selectedFile.name} ({Math.round(selectedFile.size / 1024)} KB)
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={uploading}
+                  className="btn-primary"
+                  style={{ width: '100%', justifyContent: 'center', padding: '16px', fontSize: '1rem', marginTop: '10px' }}
+                >
+                  <Upload size={20} />
+                  <span>{uploading ? 'Replacing Image...' : 'Upload & Overwrite Target Slot'}</span>
+                </button>
+              </form>
+            </div>
           </div>
         )}
 
-        {/* TAB 3: DIGITAL MARKETING & SEO */}
+        {/* TAB 4: SEO & MARKETING */}
         {activeTab === 'seo' && (
           <div className="glass-panel" style={{ padding: '28px', borderRadius: '20px' }}>
             <h3 className="font-serif" style={{ fontSize: '1.4rem', color: '#ffffff', marginBottom: '16px' }}>
               Digital Marketing & Search Engine Optimization (SEO)
             </h3>
-
             <form onSubmit={handleSaveSettings} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--gold-light)', fontWeight: 600, marginBottom: '6px' }}>
@@ -783,18 +785,6 @@ const AdminDashboard = ({ token, onClose, onRefreshOffers, settings = {}, onRefr
                 />
               </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--gold-light)', fontWeight: 600, marginBottom: '6px' }}>
-                  Instagram Handle / Profile URL
-                </label>
-                <input
-                  type="text"
-                  value={siteSettings.instagramUrl}
-                  onChange={(e) => setSiteSettings({ ...siteSettings, instagramUrl: e.target.value })}
-                  style={{ width: '100%', background: 'rgba(15,22,17,0.8)', border: '1px solid var(--border-gold)', color: '#fff', padding: '12px', borderRadius: '10px' }}
-                />
-              </div>
-
               <button type="submit" className="btn-primary" style={{ padding: '14px', justifyContent: 'center' }}>
                 <Globe size={18} />
                 <span>Save Digital Marketing & SEO Settings</span>
@@ -803,13 +793,12 @@ const AdminDashboard = ({ token, onClose, onRefreshOffers, settings = {}, onRefr
           </div>
         )}
 
-        {/* TAB 4: ESTATE SETTINGS */}
+        {/* TAB 5: ESTATE HOTLINE SETTINGS */}
         {activeTab === 'settings' && (
           <div className="glass-panel" style={{ padding: '28px', borderRadius: '20px' }}>
             <h3 className="font-serif" style={{ fontSize: '1.4rem', color: '#ffffff', marginBottom: '16px' }}>
               Estate Contact & Hotline Settings
             </h3>
-
             <form onSubmit={handleSaveSettings} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div>
@@ -835,18 +824,6 @@ const AdminDashboard = ({ token, onClose, onRefreshOffers, settings = {}, onRefr
                     style={{ width: '100%', background: 'rgba(15,22,17,0.8)', border: '1px solid var(--border-gold)', color: '#fff', padding: '12px', borderRadius: '10px' }}
                   />
                 </div>
-              </div>
-
-              <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--gold-light)', fontWeight: 600, marginBottom: '6px' }}>
-                  Google Maps Direct Redirect URL
-                </label>
-                <input
-                  type="text"
-                  value={siteSettings.googleMapsRedirectUrl}
-                  onChange={(e) => setSiteSettings({ ...siteSettings, googleMapsRedirectUrl: e.target.value })}
-                  style={{ width: '100%', background: 'rgba(15,22,17,0.8)', border: '1px solid var(--border-gold)', color: '#fff', padding: '12px', borderRadius: '10px' }}
-                />
               </div>
 
               <button type="submit" className="btn-primary" style={{ padding: '14px', justifyContent: 'center' }}>

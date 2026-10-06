@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Flame, Sparkles, MessageCircle, Copy, Check, Gift, Tag, Clock } from 'lucide-react';
 
-const DiwaliBanner = ({ whatsappNumber = '9816821195', onOpenBookingModal }) => {
+const DiwaliBanner = ({ whatsappNumber = '9816821195' }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopyCode = () => {
@@ -11,12 +11,21 @@ const DiwaliBanner = ({ whatsappNumber = '9816821195', onOpenBookingModal }) => 
   };
 
   const handleClaimOffer = () => {
-    if (onOpenBookingModal) {
-      onOpenBookingModal('DIWALI2026', 'Grand Diwali Festive Package (30% OFF)');
-    } else {
-      const msg = `Hi! I want to book the *Grand Diwali Festive Package* at The Hidden Hedges with Promo Code: *DIWALI2026* (30% OFF). Please share available dates!`;
-      window.open(`https://wa.me/91${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
+    const msg = `Hi! I want to book the *Grand Diwali Festive Package* at The Hidden Hedges with Promo Code: *DIWALI2026* (30% OFF). Please confirm available dates!`;
+    
+    // Log inquiry to backend database
+    try {
+      fetch('/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          offerCode: 'DIWALI2026',
+          message: 'Direct Diwali Banner WhatsApp Booking Click'
+        })
+      });
+    } catch (err) {}
+
+    window.open(`https://wa.me/91${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
   return (
@@ -87,7 +96,7 @@ const DiwaliBanner = ({ whatsappNumber = '9816821195', onOpenBookingModal }) => 
 
               <button onClick={handleClaimOffer} className="btn-diwali" style={{ width: '100%', justifyContent: 'center', padding: '14px' }}>
                 <MessageCircle size={18} />
-                <span>Select Dates & Claim Offer</span>
+                <span>Claim Diwali Offer via WhatsApp</span>
               </button>
 
             </div>

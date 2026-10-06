@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, Tag, Calendar, Check, MessageCircle, ArrowRight, Gift } from 'lucide-react';
 
-const OffersSection = ({ offers = [], whatsappNumber = '9816821195', onOpenBookingModal }) => {
+const OffersSection = ({ offers = [], whatsappNumber = '9816821195' }) => {
   const [activeTab, setActiveTab] = useState('All');
 
   const categories = ['All', 'Festive Special', 'Weekend Deal', 'Couples & Honeymoon'];
@@ -11,12 +11,21 @@ const OffersSection = ({ offers = [], whatsappNumber = '9816821195', onOpenBooki
     : offers.filter(o => o.category?.toLowerCase().includes(activeTab.toLowerCase()));
 
   const handleBookOffer = (offer) => {
-    if (onOpenBookingModal) {
-      onOpenBookingModal(offer.code, offer.title);
-    } else {
-      const msg = `Hi! I want to book *The Hidden Hedges Villa* under the *${offer.title}* offer (Code: *${offer.code}* - ${offer.discount}). Please share availability!`;
-      window.open(`https://wa.me/91${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
+    const msg = `Hi! I want to book *The Hidden Hedges Villa* under the *${offer.title}* offer (Code: *${offer.code}* - ${offer.discount}). Please share availability!`;
+    
+    // Log inquiry to backend database
+    try {
+      fetch('/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          offerCode: offer.code,
+          message: `Inquiry for offer: ${offer.title}`
+        })
+      });
+    } catch (e) {}
+
+    window.open(`https://wa.me/91${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
   return (
@@ -141,7 +150,7 @@ const OffersSection = ({ offers = [], whatsappNumber = '9816821195', onOpenBooki
                     style={{ padding: '8px 14px', fontSize: '0.82rem' }}
                   >
                     <MessageCircle size={15} />
-                    <span>Select Dates & Book</span>
+                    <span>Book Offer</span>
                   </button>
                 </div>
 
